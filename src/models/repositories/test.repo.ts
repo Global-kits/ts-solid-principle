@@ -1,26 +1,31 @@
+import TestModel from '../test.model';
 import { createTest, TestRepoInterface, updateTest, RepositoryInterface  } from '../../interfaces/repository';
+import { Document } from 'mongoose';
 
-export class TestRepo implements TestRepoInterface, RepositoryInterface {
+export class TestRepo implements TestRepoInterface, RepositoryInterface<Document> {
 
-    constructor() {}
-
-    get(): Object {
-        console.log('get one');
-        return {"hi testing": "good one good"};
-    }
-    getAll(): Object[] {
-        console.log('get all');
-        return [{}];
+    private model: typeof TestModel;
+    constructor(model: typeof TestModel) {
+        this.model = model;
     }
 
-    createTest(data: createTest): Object {
-        console.log('create');
-        return {};
+    async get(id: string): Promise<Document> {
+        const result = await this.model.findById(id);
+        return result;
+    }
+    
+    async getAll(): Promise<Document[]> {
+        return await this.model.find();
     }
 
-    updateTest(id: string, data: updateTest): Object {
-        console.log('update');
-        return {};
+    async createTest(data: createTest): Promise<Document> {
+       const newT = await this.model.create(data);
+       return newT; 
+    }
+
+    async updateTest(id: string, data: updateTest): Promise<Document | null> {
+        const updateNew = await this.model.findByIdAndUpdate(id, data, { new: true })
+        return updateNew;
     }
     
 }

@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 export type createTest = {
     name: string;
     description: string;
@@ -9,6 +10,6 @@ export type updateTest = {
 }
 
 export interface TestRepoInterface {
-    createTest(data: createTest): Object;
-    updateTest(id: string, data: updateTest): Object;
+    createTest(data: createTest): Promise<Document>;
+    updateTest(id: string, data: updateTest): Promise<Document | null>;
 }

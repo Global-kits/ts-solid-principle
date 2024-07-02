@@ -37,6 +37,16 @@ development
 ```bash
 $ npm run dev
 ```
+
+## Testing
+```bash
+$ npm run jest
+```
+individual file
+```bash
+$ npm run jest -- <file>
+```
+
 ## Authors
 
 - [@kaungkhantzaw](https://www.github.com/kaungkhantzawdev)
