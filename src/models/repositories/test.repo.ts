@@ -1,31 +1,31 @@
-import TestModel from '../test.model';
-import { createTest, TestRepoInterface, updateTest, RepositoryInterface  } from '../../interfaces/repository';
-import { Document } from 'mongoose';
+import TestModel, { ITestDocument } from '../test.model';
+import { createTest, updateTest, TestRepoInterface } from '../../interfaces/repository';
+import { Document, Model } from 'mongoose';
 
-export class TestRepo implements TestRepoInterface, RepositoryInterface<Document> {
+export class TestRepo implements TestRepoInterface {
+  private model: Model<ITestDocument>;
 
-    private model: typeof TestModel;
-    constructor(model: typeof TestModel) {
-        this.model = model;
-    }
+  constructor(model: Model<ITestDocument>) {
+    this.model = model;
+  }
 
-    async get(id: string): Promise<Document> {
-        const result = await this.model.findById(id);
-        return result;
-    }
-    
-    async getAll(): Promise<Document[]> {
-        return await this.model.find();
-    }
+  async get(id: string): Promise<Document | null> {
+    return await this.model.findById(id).exec();
+  }
 
-    async createTest(data: createTest): Promise<Document> {
-       const newT = await this.model.create(data);
-       return newT; 
-    }
+  async getAll(): Promise<Document[]> {
+    return await this.model.find().exec();
+  }
 
-    async updateTest(id: string, data: updateTest): Promise<Document | null> {
-        const updateNew = await this.model.findByIdAndUpdate(id, data, { new: true })
-        return updateNew;
-    }
-    
+  async createTest(data: createTest): Promise<Document> {
+    return await this.model.create(data);
+  }
+
+  async updateTest(id: string, data: updateTest): Promise<Document | null> {
+    return await this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+  }
+
+  async delete(id: string): Promise<Document | null> {
+    return await this.model.findByIdAndDelete(id).exec();
+  }
 }
