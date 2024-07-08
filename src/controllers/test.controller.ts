@@ -13,4 +13,14 @@ export class TestController implements TestControllerInterface {
         res.json(data);
     }
 
+    @AutoBindMethod
+    async create(req: Request, res: Response) {
+        const TEST_DATA = {
+            name: "Testing",
+            description: "Testing Description from url"
+        }
+        const data = await this.service.create(TEST_DATA);
+        res.json(data);
+    }
+
 }   

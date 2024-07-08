@@ -11,5 +11,6 @@ const testService = new TestService(testRepo);
 const testController = new TestController(testService)
 
 router.get('/test', testController.get)
+router.get('/test-create', testController.create)
 
 export default router;

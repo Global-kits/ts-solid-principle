@@ -9,23 +9,23 @@ export class TestRepo implements TestRepoInterface {
     this.model = model;
   }
 
-  async get(id: string): Promise<Document | null> {
-    return await this.model.findById(id).exec();
+  async get(id: string): Promise<ITestDocument | null> {
+    return await this.model.findById(id);
   }
 
-  async getAll(): Promise<Document[]> {
-    return await this.model.find().exec();
+  async getAll(): Promise<ITestDocument[]> {
+    return await this.model.find();
   }
 
-  async createTest(data: createTest): Promise<Document> {
+  async createTest(data: createTest): Promise<ITestDocument> {
     return await this.model.create(data);
   }
 
-  async updateTest(id: string, data: updateTest): Promise<Document | null> {
-    return await this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+  async updateTest(id: string, data: updateTest): Promise<ITestDocument | null> {
+    return await this.model.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async delete(id: string): Promise<Document | null> {
-    return await this.model.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<ITestDocument | null> {
+    return await this.model.findByIdAndDelete(id);
   }
 }
